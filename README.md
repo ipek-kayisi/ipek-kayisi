@@ -1,59 +1,44 @@
-# IpekKayisi
+# İpek Toptan Kuru Gıda
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+Angular 19 standalone e-commerce storefront for dried fruit, nuts and wholesale grocery products. The storefront is in Turkish and uses Firebase Web SDK for Firestore, Storage and Authentication.
 
-## Development server
-
-To start a local development server, run:
+## Run locally
 
 ```bash
-ng serve
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Firebase setup
 
-## Code scaffolding
+1. Create a Firebase project and register a Web app.
+2. Enable Firestore, Cloud Storage and Email/Password Authentication.
+3. Replace the `YOUR_*` values in `src/app/core/firebase.ts` with the Web app configuration.
+4. Create the initial categories and products in the `categories` and `products` collections, or use the built-in sample data until Firestore has records.
+5. Create admin accounts in Firebase Authentication. The client-side guard is navigation UX only: configure Firestore and Storage Security Rules to restrict all admin writes and order reads to authorized staff. Never rely on the route guard as a security boundary.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Firebase configuration values are public client identifiers, not admin credentials. Do not put service-account keys or Telegram bot tokens in this app.
+
+## Telegram order notifications
+
+Order documents are written to the `orders` collection. To notify Telegram, configure a trusted server-side webhook (for example, a Firebase Cloud Function) and set its HTTPS URL as `TELEGRAM_ORDER_WEBHOOK` in `src/app/core/services/telegram.service.ts`. Keep the bot token and chat ID in server-side secrets. With no webhook URL configured, order creation still works and Telegram notification is skipped.
+
+## Routes
+
+- `/` — storefront home and featured products
+- `/catalog` — category-filtered catalog
+- `/product/:id` — product details
+- `/cart` — cart and checkout
+- `/contacts` — contact information and map
+- `/admin/login` — Firebase email/password login
+- `/admin` — protected sales overview
+- `/admin/orders`, `/admin/products`, `/admin/categories` — order and catalog management
+
+## Checks
 
 ```bash
-ng generate component component-name
+npm run build
+npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The test command requires a locally installed Google Chrome binary for ChromeHeadless.
