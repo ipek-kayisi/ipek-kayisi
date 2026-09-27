@@ -1,34 +1,36 @@
 <div class="admin-shell">
-    <aside>
+    @if (menuOpen()) { <button class="nav-backdrop" type="button" aria-label="Menüyü kapat" (click)="closeMenu()"></button> }
+    <aside [class.open]="menuOpen()">
       <a class="brand" routerLink="/"
         ><span class="mark">İ</span
-        ><span>İPEK <small>YÖNETİM PANELİ</small></span></a
+        ><span> <small>YÖNETİM PANELİ</small></span></a
       >
       <span class="label">YÖNETİM</span>
       <a
         routerLink="/admin"
         [routerLinkActiveOptions]="{ exact: true }"
         routerLinkActive="active"
+        (click)="closeMenu()"
         ><img src="/layout-dashboard.svg" alt="" /><span>Genel Bakış</span></a
       >
-      <a routerLink="/admin/orders" routerLinkActive="active"
+      <a routerLink="/admin/orders" routerLinkActive="active" (click)="closeMenu()"
         ><img src="/clipboard-list.svg" alt="" /><span>Siparişler</span></a
       >
-      <a routerLink="/admin/products" routerLinkActive="active"
+      <a routerLink="/admin/products" routerLinkActive="active" (click)="closeMenu()"
         ><img src="/package.svg" alt="" /><span>Ürünler</span></a
       >
-      <a routerLink="/admin/categories" routerLinkActive="active"
+      <a routerLink="/admin/categories" routerLinkActive="active" (click)="closeMenu()"
         ><img src="/tags.svg" alt="" /><span>Kategoriler</span></a
       >
       <button (click)="logout()">
         <img src="/log-out.svg" alt="" /><span>Çıkış yap</span>
       </button>
-      <a class="store-link" routerLink="/"
+      <a class="store-link" routerLink="/" (click)="closeMenu()"
         ><img src="/arrow-left.svg" alt="" /><span>Mağazaya dön</span></a
       >
     </aside>
     <main>
-      <header><span>İpek Toptan / Yönetim</span><b>Yönetici</b></header>
+      <header><button class="menu-toggle" type="button" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Menüyü aç/kapat"><span></span><span></span><span></span></button><span>İpek Toptan / Yönetim</span><b>Yönetici</b></header>
       <section class="content"><router-outlet /></section>
     </main>
   </div>
