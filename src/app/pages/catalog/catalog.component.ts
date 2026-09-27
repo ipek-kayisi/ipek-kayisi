@@ -2,7 +2,7 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryService } from '../../core/services/category.service';
 import { ProductService } from '../../core/services/product.service';
-import { ProductCardComponent } from '../../shared/product-card.component';
+import { ProductCardComponent } from '../../shared/product-card/product-card.component';
 
 @Component({ selector:'app-catalog', standalone:true, imports:[ProductCardComponent], templateUrl:'./catalog.component.html', styleUrl:'./catalog.component.scss' })
 export class CatalogComponent implements OnInit {

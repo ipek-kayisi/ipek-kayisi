@@ -2,50 +2,133 @@
   <div class="hero-inner">
     <div class="hero-copy">
       <span class="eyebrow"><i></i> DOĞALLIĞIN EN LEZZETLİ HALİ</span>
-      <h1>Doğadan gelen<br>lezzet, <em>İpek</em> kalitesi.</h1>
-      <p>En taze kuruyemişler, kuru meyveler ve yöresel lezzetler; özenle seçildi, şimdi kapınızda.</p>
+      <h1>Doğadan gelen<br />lezzet, <em>İpek</em> kalitesi.</h1>
+      <p>
+        En taze kuruyemişler, kuru meyveler ve yöresel lezzetler; özenle
+        seçildi, şimdi kapınızda.
+      </p>
       <div class="hero-actions">
-        <a routerLink="/catalog" class="primary-btn">Ürünleri Keşfet <img src="/arrow-up-right.svg" alt=""></a>
-        <a class="text-link" href="tel:+902123456789">Toptan sipariş için <b>0212 345 67 89</b></a>
+        <a routerLink="/catalog" class="primary-btn"
+          >Ürünleri Keşfet <img src="/arrow-up-right.svg" alt=""
+        /></a>
+        <a class="text-link" href="tel:+902123456789"
+          >Toptan sipariş için <b>0212 345 67 89</b></a
+        >
       </div>
       <div class="proof">
-        <img class="customer-icon" src="/users-round.svg" alt="Müşterilerimiz">
-        <div><strong>Mutlu sofralar, mutlu müşteriler</strong><small>Her gün taptaze, her zaman güvenilir</small></div>
+        <img
+          class="customer-icon"
+          src="/users-round.svg"
+          alt="Müşterilerimiz"
+        />
+        <div>
+          <strong>Mutlu sofralar, mutlu müşteriler</strong
+          ><small>Her gün taptaze, her zaman güvenilir</small>
+        </div>
         <b class="rating" aria-label="5 üzerinden 4.9 yıldız">
-          <img src="/star.svg" alt="">
-          <img src="/star.svg" alt="">
-          <img src="/star.svg" alt="">
-          <img src="/star.svg" alt="">
-          <img src="/star.svg" alt="">
+          <img src="/star.svg" alt="" />
+          <img src="/star.svg" alt="" />
+          <img src="/star.svg" alt="" />
+          <img src="/star.svg" alt="" />
+          <img src="/star.svg" alt="" />
           <small>4.9/5</small>
         </b>
       </div>
     </div>
     <div class="hero-image">
-      <img src="https://images.unsplash.com/photo-1608797178974-15b35a64ede9?auto=format&fit=crop&w=1100&q=90" alt="Özenle hazırlanmış kuru meyve ve kuruyemişler">
-      <div class="image-tag"><img src="/sparkles.svg" alt=""><div><b>Doğal ve taze</b><small>Her lokmada kalite</small></div></div>
-      <div class="round-stamp">%100<br><small>DOĞAL</small></div>
+      <!-- Блок с изображением чаши и встроенной динамической тенью -->
+      <div class="floating-wrapper">
+        <img
+          src="/images/hero-img.png"
+          alt="Özenle hazırlanmış kuru meyve ve kuruyemişler"
+          class="floating-img"
+        />
+        <div class="floating-shadow"></div>
+      </div>
+
+      <!-- Плавающая плашка "Doğal ve taze" -->
+      <div class="image-tag">
+        <img src="/sparkles.svg" alt="" />
+        <div>
+          <b>Doğal ve taze</b>
+          <small>Her lokmada kalite</small>
+        </div>
+      </div>
+
+      <!-- Круглый бэйдж %100 DOĞAL -->
+      <div class="round-stamp">%100<br /><small>DOĞAL</small></div>
     </div>
   </div>
   <div class="hero-bottom">
-    <span><img src="/sparkles.svg" alt=""> Özenle seçilmiş kaliteli ürünler</span>
-    <span><img src="/store.svg" alt=""> Toptan ve perakende satış</span>
-    <span><img src="/package-check.svg" alt=""> Güvenli ve hızlı teslimat</span>
+    <span
+      ><img src="/sparkles.svg" alt="" /> Özenle seçilmiş kaliteli ürünler</span
+    >
+    <span><img src="/store.svg" alt="" /> Toptan ve perakende satış</span>
+    <span
+      ><img src="/package-check.svg" alt="" /> Güvenli ve hızlı teslimat</span
+    >
   </div>
 </section>
 <section class="categories section-wrap">
-  <div class="section-heading"><div><span class="eyebrow">ÜRÜNLERİMİZ</span><h2>Her damak tadına <em>doğal</em> bir lezzet</h2></div><a routerLink="/catalog" class="view-all">Tüm kategoriler <img src="/arrow-up-right.svg" alt=""></a></div>
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">ÜRÜNLERİMİZ</span>
+      <h2>Her damak tadına <em>doğal</em> bir lezzet</h2>
+    </div>
+    <a routerLink="/catalog" class="view-all"
+      >Tüm kategoriler <img src="/arrow-up-right.svg" alt=""
+    /></a>
+  </div>
   <div class="category-grid">
-    @for(category of categories.categories(); track category.id){
-      <a [routerLink]="['/catalog']" [queryParams]="{category: category.slug}" class="category-tile">
-        <span class="category-icon"><img [src]="'/' + categories.iconName(category.iconUrl, category.slug) + '.svg'" alt=""></span>
-        <b>{{category.name}}</b><small>Lezzetleri keşfet <img src="/arrow-right.svg" alt=""></small>
+    @for (category of categories.categories(); track category.id) {
+      <a
+        [routerLink]="['/catalog']"
+        [queryParams]="{ category: category.slug }"
+        class="category-tile"
+      >
+        <span class="category-icon"
+          ><img
+            [src]="
+              '/' +
+              categories.iconName(category.iconUrl, category.slug) +
+              '.svg'
+            "
+            alt=""
+        /></span>
+        <b>{{ category.name }}</b
+        ><small>Lezzetleri keşfet <img src="/arrow-right.svg" alt="" /></small>
       </a>
     }
   </div>
 </section>
-<section class="featured"><div class="section-wrap">
-  <div class="section-heading"><div><span class="eyebrow">SİZİN İÇİN SEÇTİK</span><h2>Çok sevilen <em>lezzetler</em></h2></div><a routerLink="/catalog" class="view-all">Tüm ürünler <img src="/arrow-up-right.svg" alt=""></a></div>
-  <div class="product-grid">@for(product of products.products().slice(0,4); track product.id){<app-product-card [product]="product" />}</div>
-</div></section>
-<section class="promise"><img src="/sparkles.svg" alt=""><div><b>İpek güvencesiyle sofranıza</b><p>Kaliteden ödün vermeden, doğanın en güzel tatlarını sizin için bir araya getiriyoruz.</p></div><a routerLink="/contacts">Bizi daha yakından tanıyın <img src="/arrow-up-right.svg" alt=""></a></section>
+<section class="featured">
+  <div class="section-wrap">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">SİZİN İÇİN SEÇTİK</span>
+        <h2>Çok sevilen <em>lezzetler</em></h2>
+      </div>
+      <a routerLink="/catalog" class="view-all"
+        >Tüm ürünler <img src="/arrow-up-right.svg" alt=""
+      /></a>
+    </div>
+    <div class="product-grid">
+      @for (product of products.products().slice(0, 4); track product.id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  </div>
+</section>
+<section class="promise">
+  <img src="/sparkles.svg" alt="" />
+  <div>
+    <b>İpek güvencesiyle sofranıza</b>
+    <p>
+      Kaliteden ödün vermeden, doğanın en güzel tatlarını sizin için bir araya
+      getiriyoruz.
+    </p>
+  </div>
+  <a routerLink="/contacts"
+    >Bizi daha yakından tanıyın <img src="/arrow-up-right.svg" alt=""
+  /></a>
+</section>

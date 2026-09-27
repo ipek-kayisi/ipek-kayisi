@@ -1,0 +1,32 @@
+<article class="product-card">
+    <a class="photo" [routerLink]="['/product', product.id]"
+      ><img [src]="product.imageUrl" [alt]="product.name" loading="lazy" /><span
+        class="stock"
+        ><img src="/circle-check.svg" alt="" /> Stokta</span
+      ></a
+    >
+    <div class="details">
+      <a class="name" [routerLink]="['/product', product.id]">{{
+        product.name
+      }}</a>
+      <p class="description">{{ product.description }}</p>
+      <div class="purchase">
+        <label class="weight"
+          ><span class="sr-only">Paket ağırlığı</span
+          ><select
+            [value]="selectedWeight || product.weightOptions[0]"
+            (change)="selectWeight($event)"
+          >
+            @for (weight of product.weightOptions; track weight) {
+              <option [value]="weight">{{ weight }}</option>
+            }
+          </select></label
+        ><strong>{{
+          product.price | currency: 'TRY' : '₺' : '1.0-0' : 'tr-TR'
+        }}</strong>
+      </div>
+      <button type="button" (click)="addToCart()">
+        <img src="/plus.svg" alt="" /> Sepete Ekle
+      </button>
+    </div>
+  </article>

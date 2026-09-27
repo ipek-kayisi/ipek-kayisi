@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CategoryService } from '../../core/services/category.service';
 import { ProductService } from '../../core/services/product.service';
-import { ProductCardComponent } from '../../shared/product-card.component';
+import { ProductCardComponent } from '../../shared/product-card/product-card.component';
 
 @Component({
   selector: 'app-home', standalone: true, imports: [RouterLink, ProductCardComponent],

@@ -1,0 +1,157 @@
+ .detail-page {
+        max-width: 1160px;
+        min-height: 65vh;
+        margin: auto;
+        padding: 38px 20px 70px;
+      }
+      .back {
+        color: #557467;
+        text-decoration: none;
+        font-size: 12px;
+      }
+      .back img {
+        width: 14px;
+        height: 14px;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+      .detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 65px;
+        align-items: center;
+        margin: 38px 0;
+      }
+      .detail > img {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        color: #87907c;
+        font-weight: 800;
+      }
+      .detail h1 {
+        font:
+          42px Georgia,
+          serif;
+        color: #154c40;
+        margin: 16px 0;
+      }
+      .detail p {
+        color: #7c857e;
+        line-height: 1.8;
+        font-size: 14px;
+      }
+      .price {
+        display: block;
+        color: #cf7610;
+        font-size: 26px;
+        margin: 20px 0;
+      }
+      .detail label {
+        display: block;
+        color: #65746a;
+        font-size: 12px;
+      }
+      .detail select {
+        display: block;
+        padding: 11px;
+        width: 100%;
+        margin: 8px 0 15px;
+        border: 1px solid #e3e6de;
+        border-radius: 6px;
+        background: white;
+      }
+      .detail button {
+        width: 100%;
+        background: #ff9e16;
+        border: 0;
+        border-radius: 6px;
+        padding: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .detail button img,
+      .detail small img {
+        width: 15px;
+        height: 15px;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+      .detail small {
+        display: block;
+        margin-top: 13px;
+        color: #66843f;
+      }
+      .recommendations {
+        border-top: 1px solid #ece9e1;
+        margin-top: 64px;
+        padding-top: 38px;
+      }
+      .recommendations-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+      .recommendations-heading h2 {
+        color: #154c40;
+        font: 30px Georgia, serif;
+        margin: 10px 0 0;
+      }
+      .recommendations-heading > a {
+        color: #557467;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .recommendations-heading > a:hover {
+        color: #cf7610;
+      }
+      .recommendations-heading > a span {
+        margin-left: 4px;
+      }
+      .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+      @media (max-width: 900px) {
+        .recommendations-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+        }
+      }
+      @media (max-width: 700px) {
+        .recommendations {
+          margin-top: 42px;
+          padding-top: 28px;
+        }
+        .recommendations-heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .recommendations-heading h2 {
+          font-size: 25px;
+        }
+        .recommendations-grid {
+          gap: 10px;
+        }
+        .detail {
+          grid-template-columns: 1fr;
+          gap: 25px;
+        }
+        .detail > img {
+          height: 300px;
+        }
+        .detail h1 {
+          font-size: 32px;
+        }
+      }

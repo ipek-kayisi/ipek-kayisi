@@ -3,10 +3,32 @@ import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { ProductService } from '../../core/services/product.service';
+import { ProductCardComponent } from '../../shared/product-card/product-card.component';
 
-@Component({ selector:'app-product-detail', standalone:true, imports:[CurrencyPipe, RouterLink], template:`<section class="detail-page"><a routerLink="/catalog" class="back"><img src="/arrow-left.svg" alt=""> Ürünlere dön</a>@if(product(); as item){<div class="detail"><img [src]="item.imageUrl" [alt]="item.name"><div><span class="eyebrow">İPEK'TEN ÖZENLE SEÇİLDİ</span><h1>{{item.name}}</h1><p>{{item.description}}</p><strong class="price">{{item.price | currency:'TRY':'₺':'1.0-0':'tr-TR'}}</strong><label>Paket seçimi<select (change)="weight.set($any($event.target).value)">@for(option of item.weightOptions;track option){<option [value]="option">{{option}}</option>}</select></label><button (click)="cart.add(item,weight())">Sepete Ekle <img src="/plus.svg" alt="">　</button><small>● Stokta · Özenle paketlenir</small></div></div>}@else{<p>Ürün bulunamadı.</p>}</section>`, styles:[`.detail-page{max-width:1160px;min-height:65vh;margin:auto;padding:38px 20px 70px}.back{color:#557467;text-decoration:none;font-size:12px}.back img{width:14px;height:14px;vertical-align:middle;margin-right:5px}.detail{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:center;margin:38px 0}.detail>img{width:100%;height:440px;object-fit:cover;border-radius:12px}.eyebrow{font-size:10px;letter-spacing:.15em;color:#87907c;font-weight:800}.detail h1{font:42px Georgia,serif;color:#154c40;margin:16px 0}.detail p{color:#7c857e;line-height:1.8;font-size:14px}.price{display:block;color:#cf7610;font-size:26px;margin:20px 0}.detail label{display:block;color:#65746a;font-size:12px}.detail select{display:block;padding:11px;width:100%;margin:8px 0 15px;border:1px solid #e3e6de;border-radius:6px;background:white}.detail button{width:100%;background:#ff9e16;border:0;border-radius:6px;padding:14px;font-weight:700;cursor:pointer}.detail button img,.detail small img{width:15px;height:15px;vertical-align:middle;margin-right:5px}.detail small{display:block;margin-top:13px;color:#66843f}@media(max-width:700px){.detail{grid-template-columns:1fr;gap:25px}.detail>img{height:300px}.detail h1{font-size:32px}}`] })
+@Component({
+  selector: 'app-product-detail',
+  standalone: true,
+  imports: [CurrencyPipe, RouterLink, ProductCardComponent],
+  templateUrl: './product-detail.component.html',
+  styleUrl: './product-detail.component.scss',
+})
 export class ProductDetailComponent implements OnInit {
-  private readonly route=inject(ActivatedRoute); readonly service=inject(ProductService); readonly cart=inject(CartService); readonly weight=signal('1kg');
-  readonly product=computed(()=>this.service.products().find(p=>p.id===this.route.snapshot.paramMap.get('id')));
-  ngOnInit():void{void this.service.load();}
+  private readonly route = inject(ActivatedRoute);
+  readonly service = inject(ProductService);
+  readonly cart = inject(CartService);
+  readonly weight = signal('1kg');
+  readonly product = computed(() =>
+    this.service
+      .products()
+      .find((p) => p.id === this.route.snapshot.paramMap.get('id')),
+  );
+  readonly recommendations = computed(() =>
+    this.service
+      .products()
+      .filter((item) => item.id !== this.product()?.id && item.isAvailable)
+      .slice(0, 4),
+  );
+  ngOnInit(): void {
+    void this.service.load();
+  }
 }

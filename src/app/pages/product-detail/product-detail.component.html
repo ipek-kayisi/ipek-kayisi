@@ -1,0 +1,47 @@
+<section class="detail-page">
+    <a routerLink="/catalog" class="back"
+      ><img src="/arrow-left.svg" alt="" /> Ürünlere dön</a
+    >
+    @if (product(); as item) {
+      <div class="detail">
+        <img [src]="item.imageUrl" [alt]="item.name" />
+        <div>
+          <span class="eyebrow">İPEK'TEN ÖZENLE SEÇİLDİ</span>
+          <h1>{{ item.name }}</h1>
+          <p>{{ item.description }}</p>
+          <strong class="price">{{
+            item.price | currency: 'TRY' : '₺' : '1.0-0' : 'tr-TR'
+          }}</strong
+          ><label
+            >Paket seçimi<select
+              (change)="weight.set($any($event.target).value)"
+            >
+              @for (option of item.weightOptions; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select></label
+          ><button (click)="cart.add(item, weight())">
+            Sepete Ekle <img src="/plus.svg" alt="" />　</button
+          ><small>● Stokta · Özenle paketlenir</small>
+        </div>
+      </div>
+      @if (recommendations().length) {
+        <section class="recommendations" aria-labelledby="recommendations-title">
+          <div class="recommendations-heading">
+            <div>
+              <span class="eyebrow">SİZİN İÇİN SEÇTİK</span>
+              <h2 id="recommendations-title">Bunlar da ilginizi çekebilir</h2>
+            </div>
+            <a routerLink="/catalog">Tüm ürünleri gör <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="recommendations-grid">
+            @for (recommended of recommendations(); track recommended.id) {
+              <app-product-card [product]="recommended" />
+            }
+          </div>
+        </section>
+      }
+    } @else {
+      <p>Ürün bulunamadı.</p>
+    }
+  </section>
