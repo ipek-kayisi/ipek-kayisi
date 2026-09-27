@@ -7,23 +7,34 @@ import { db, firebaseConfigured } from '../../core/firebase';
 
 @Component({
   selector: 'app-admin-categories', standalone: true, imports: [FormsModule],
-  template: `<h1>Kategori yönetimi</h1><p>{{ message() }}</p><div class="grid"><section>@for(category of categories.categories(); track category.id){<article><span>{{ category.iconUrl }}</span><b>{{ category.name }}</b><small>{{ category.slug }}</small><button type="button" (click)="edit(category)">Düzenle</button><button type="button" (click)="remove(category.id)">Sil</button></article>}</section><form (ngSubmit)="save()"><h2>{{ editingId()?'Kategoriyi düzenle':'Yeni kategori' }}</h2><label>Ad<input name="name" [(ngModel)]="name" required></label><label>Slug<input name="slug" [(ngModel)]="slug" required></label><label>İkon / emoji<input name="icon" [(ngModel)]="icon"></label><button>{{ editingId()?'Kaydet':'Kategori ekle' }}</button></form></div>`,
-  styles: [`.grid{display:grid;grid-template-columns:1fr 300px;gap:18px}section,form{background:#fff;padding:18px}article{display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee;padding:12px 0}article b{flex:1}article small{color:#888}label{display:block;margin:12px 0;font-size:12px}input{display:block;width:100%;padding:9px;margin-top:5px;border:1px solid #ddd}button{padding:7px;border:1px solid #ddd;background:#fff;cursor:pointer}@media(max-width:700px){.grid{grid-template-columns:1fr}}`],
+  template: `<h1>Kategori yönetimi</h1><p>{{ message() }}</p><div class="grid"><section>@for(category of categories.categories(); track category.id){<article><img class="category-icon" [src]="'/' + categories.iconName(category.iconUrl, category.slug) + '.svg'" alt=""><b>{{ category.name }}</b><small>{{ category.slug }}</small><button type="button" (click)="edit(category)">Düzenle</button><button type="button" (click)="remove(category.id)">Sil</button></article>}</section><form (ngSubmit)="save()"><h2>{{ editingId()?'Kategoriyi düzenle':'Yeni kategori' }}</h2><label>Ad<input name="name" [(ngModel)]="name" required></label><label>Slug<input name="slug" [(ngModel)]="slug" required></label><label>Lucide ikon adı<select name="icon" [(ngModel)]="icon">
+  <option value="nut">nut</option>
+  <option value="apple">apple</option>
+  <option value="sprout">sprout</option>
+  <option value="candy">candy</option>
+  <option value="leaf">leaf</option>
+  <option value="sparkles">sparkles</option>
+  <option value="package">package</option>
+  <option value="tags">tags</option>
+</select></label><button>{{ editingId()?'Kaydet':'Kategori ekle' }}</button></form></div>`,
+  styles: [`.grid{display:grid;grid-template-columns:1fr 300px;gap:18px}section,form{background:#fff;padding:18px}article{display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee;padding:12px 0}article b{flex:1}article small{color:#888}label{display:block;margin:12px 0;font-size:12px}input{display:block;width:100%;padding:9px;margin-top:5px;border:1px solid #ddd}button{padding:7px;border:1px solid #ddd;background:#fff;cursor:pointer}@media(max-width:700px){.grid{grid-template-columns:1fr}}.category-icon{width:24px;height:24px}`],
 })
 export class AdminCategoriesComponent implements OnInit {
   readonly categories = inject(CategoryService);
   readonly message = signal('');
   readonly editingId = signal('');
-  name = ''; slug = ''; icon = '🌿';
+  name = ''; slug = ''; icon = 'sprout';
   ngOnInit(): void { void this.categories.load(); }
   edit(category: Category): void { this.editingId.set(category.id); this.name = category.name; this.slug = category.slug; this.icon = category.iconUrl; }
   async save(): Promise<void> {
     if (!firebaseConfigured) { this.message.set('Kategorileri kaydetmek için Firebase ayarları gereklidir.'); return; }
     try {
       const data = { name: this.name, slug: this.slug, iconUrl: this.icon };
+      const iconUrl = this.categories.iconName(this.icon, this.slug);
+      data.iconUrl = iconUrl;
       if (this.editingId()) await setDoc(doc(db, 'categories', this.editingId()), data);
       else await addDoc(collection(db, 'categories'), data);
-      await this.categories.load(); this.message.set('Kategori kaydedildi.'); this.editingId.set(''); this.name = ''; this.slug = ''; this.icon = '🌿';
+      await this.categories.load(); this.message.set('Kategori kaydedildi.'); this.editingId.set(''); this.name = ''; this.slug = ''; this.icon = 'sprout';
     } catch { this.message.set('Kategori kaydedilemedi.'); }
   }
   async remove(id: string): Promise<void> {
