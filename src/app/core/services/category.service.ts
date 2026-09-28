@@ -4,23 +4,16 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db, firebaseConfigured } from '../firebase';
 import { Category } from '../models/category.model';
 
-const seed: Category[] = [
-  { id: 'kuruyemis', name: 'Kuruyemiş', slug: 'kuruyemis', iconUrl: 'nut' },
-  { id: 'kuru-meyve', name: 'Kuru Meyve', slug: 'kuru-meyve', iconUrl: 'apple' },
-  { id: 'baharat', name: 'Baharat & Bakliyat', slug: 'baharat', iconUrl: 'sprout' },
-  { id: 'lokum', name: 'Lokum & Atıştırmalık', slug: 'lokum', iconUrl: 'candy' },
-];
-
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
-  readonly categories = signal<Category[]>(seed);
+  readonly categories = signal<Category[]>([]);
 
   async load(): Promise<void> {
     if (!this.browser || !firebaseConfigured) return;
     try {
       const snapshot = await getDocs(collection(db, 'categories'));
-      if (!snapshot.empty) this.categories.set(snapshot.docs.map(doc => {
+      this.categories.set(snapshot.docs.map(doc => {
         const category = { id: doc.id, ...doc.data() } as Category;
         return { ...category, iconUrl: this.iconName(category.iconUrl, category.slug) };
       }));

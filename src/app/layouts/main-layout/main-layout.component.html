@@ -18,8 +18,8 @@
     <a routerLink="/contacts" routerLinkActive="active">İletişim</a>
   </nav>
   <div class="header-actions">
-    <a class="wholesale" href="tel:+902123456789"
-      >Toptan destek <strong>0212 345 67 89</strong></a
+    <a class="wholesale" [href]="'tel:' + contacts.contacts().phone"
+      >Toptan destek <strong>{{ contacts.contacts().phone }}</strong></a
     ><a class="cart-link" routerLink="/cart" aria-label="Sepet"
       ><img src="/shopping-basket.svg" alt="" /><span>Sepet</span
       ><b>{{ cart.count() }}</b></a

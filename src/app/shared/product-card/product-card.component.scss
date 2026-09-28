@@ -235,3 +235,37 @@
     margin-right: 4px;
   }
 }
+
+.quantity-control {
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ff9e16;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #fffaf2;
+  color: #2a2318;
+}
+
+.quantity-control .quantity-button {
+  width: 42px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #ff9e16;
+  color: #2a2318;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.quantity-control .quantity-button:hover {
+  background: #f28d00;
+}
+
+.quantity-control strong {
+  font-size: 15px;
+}

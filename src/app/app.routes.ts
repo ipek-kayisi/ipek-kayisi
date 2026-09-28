@@ -28,6 +28,7 @@ export const routes: Routes = [
 			{ path: 'orders', loadComponent: () => import('./pages/admin/admin-orders.component').then(m => m.AdminOrdersComponent), title: 'Siparişler | İpek Yönetim' },
 			{ path: 'products', loadComponent: () => import('./pages/admin/admin-products.component').then(m => m.AdminProductsComponent), title: 'Ürünler | İpek Yönetim' },
 			{ path: 'categories', loadComponent: () => import('./pages/admin/admin-categories.component').then(m => m.AdminCategoriesComponent), title: 'Kategoriler | İpek Yönetim' },
+			{ path: 'contacts', loadComponent: () => import('./pages/admin/admin-contacts.component').then(m => m.AdminContactsComponent), title: 'İletişim | İpek Yönetim' },
 		],
 	},
 	{ path: '**', redirectTo: '' },

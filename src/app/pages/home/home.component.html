@@ -11,8 +11,8 @@
         <a routerLink="/catalog" class="primary-btn"
           >Ürünleri Keşfet <img src="/arrow-up-right.svg" alt=""
         /></a>
-        <a class="text-link" href="tel:+902123456789"
-          >Toptan sipariş için <b>0212 345 67 89</b></a
+        <a class="text-link" [href]="'tel:' + contacts.contacts().phone"
+          >Toptan sipariş için <b>{{ contacts.contacts().phone }}</b></a
         >
       </div>
       <div class="proof">

@@ -14,7 +14,7 @@
         <label class="weight"
           ><span class="sr-only">Paket ağırlığı</span
           ><select
-            [value]="selectedWeight || product.weightOptions[0]"
+            [value]="selectedWeight() || product.weightOptions[0]"
             (change)="selectWeight($event)"
           >
             @for (weight of product.weightOptions; track weight) {
@@ -22,11 +22,19 @@
             }
           </select></label
         ><strong>{{
-          product.price | currency: 'TRY' : '₺' : '1.0-0' : 'tr-TR'
+          selectedPrice() | currency: 'TRY' : '₺' : '1.0-0' : 'tr-TR'
         }}</strong>
       </div>
-      <button type="button" (click)="addToCart()">
-        <img src="/plus.svg" alt="" /> Sepete Ekle
-      </button>
+      @if (cartItem(); as item) {
+        <div class="quantity-control" aria-label="Sepet miktarı">
+          <button type="button" class="quantity-button" (click)="decrease()" aria-label="Adedi azalt">−</button>
+          <strong>{{ item.quantity }}</strong>
+          <button type="button" class="quantity-button" (click)="increase()" aria-label="Adedi artır">+</button>
+        </div>
+      } @else {
+        <button type="button" (click)="addToCart()">
+          <img src="/plus.svg" alt="" /> Sepete Ekle
+        </button>
+      }
     </div>
   </article>

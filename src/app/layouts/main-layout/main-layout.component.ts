@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+import { ContactsStateService } from '../../core/services/contacts-state.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -11,4 +12,5 @@ import { CartService } from '../../core/services/cart.service';
 })
 export class MainLayoutComponent {
   readonly cart = inject(CartService);
+  readonly contacts = inject(ContactsStateService);
 }

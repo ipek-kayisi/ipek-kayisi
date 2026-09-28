@@ -19,7 +19,7 @@ import { CategoryService } from '../../core/services/category.service';
             <img [src]="product.imageUrl" [alt]="product.name" />
             <b>{{ product.name }}</b>
           </div>
-          <div class="product-meta"><span>₺{{ product.price }}</span><span>{{ product.stockCount }} adet</span></div>
+          <div class="product-meta"><span>₺{{ product.price }} / kg</span><span>{{ product.stockCount }} adet</span></div>
           <div class="actions"><button type="button" (click)="edit(product)">Düzenle</button><button type="button" (click)="remove(product.id)">Sil</button></div>
         </article>
       }
@@ -31,7 +31,7 @@ import { CategoryService } from '../../core/services/category.service';
           <form [formGroup]="form" (ngSubmit)="save()">
             <label>Ad<input formControlName="name" /></label>
             <label>Açıklama<textarea formControlName="description"></textarea></label>
-            <div class="field-row"><label>Fiyat<input type="number" formControlName="price" /></label><label>Stok<input type="number" formControlName="stockCount" /></label></div>
+            <div class="field-row"><label>Fiyat (1 kg)<input type="number" formControlName="price" /></label><label>Stok<input type="number" formControlName="stockCount" /></label></div>
             <label>Kategori<select formControlName="categorySlug">
               @for (category of categories.categories(); track category.id) { <option [value]="category.slug">{{ category.name }}</option> }
             </select></label>

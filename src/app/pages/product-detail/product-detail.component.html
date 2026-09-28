@@ -10,19 +10,19 @@
           <h1>{{ item.name }}</h1>
           <p>{{ item.description }}</p>
           <strong class="price">{{
-            item.price | currency: 'TRY' : '₺' : '1.0-0' : 'tr-TR'
+            selectedPrice() | currency: 'TRY' : '₺' : '1.0-0' : 'tr-TR'
           }}</strong
           ><label
             >Paket seçimi<select
+              [value]="selectedWeight()"
               (change)="weight.set($any($event.target).value)"
             >
               @for (option of item.weightOptions; track option) {
                 <option [value]="option">{{ option }}</option>
               }
             </select></label
-          ><button (click)="cart.add(item, weight())">
-            Sepete Ekle <img src="/plus.svg" alt="" />　</button
-          ><small>● Stokta · Özenle paketlenir</small>
+            >@if (cartItem(); as cartItem) {<div class="quantity-control" aria-label="Sepet miktarı"><button type="button" (click)="decrease()" aria-label="Adedi azalt">−</button><strong>{{ cartItem.quantity }}</strong><button type="button" (click)="increase()" aria-label="Adedi artır">+</button></div>} @else {<button type="button" (click)="cart.add(item, selectedWeight())">
+            Sepete Ekle <img src="/plus.svg" alt="" /></button>}<small>● Stokta · Özenle paketlenir</small>
         </div>
       </div>
       @if (recommendations().length) {

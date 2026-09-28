@@ -2,9 +2,9 @@ import { computed, Injectable, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CartItem } from '../models/cart.model';
-import { Product } from '../models/product.model';
+import { priceForWeight, Product } from '../models/product.model';
 
-const STORAGE_KEY = 'ipek-cart-v1';
+const STORAGE_KEY = 'ipek-cart-v2';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -19,7 +19,7 @@ export class CartService {
       const match = items.find(item => item.productId === product.id && item.selectedWeight === selectedWeight);
       return match
         ? items.map(item => item === match ? { ...item, quantity: item.quantity + 1 } : item)
-        : [...items, { productId: product.id, productName: product.name, imageUrl: product.imageUrl, price: product.price, quantity: 1, selectedWeight }];
+        : [...items, { productId: product.id, productName: product.name, imageUrl: product.imageUrl, price: priceForWeight(product.price, selectedWeight), quantity: 1, selectedWeight }];
     });
     this.persist();
   }

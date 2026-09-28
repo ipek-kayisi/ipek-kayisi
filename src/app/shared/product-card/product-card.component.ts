@@ -1,8 +1,8 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
-import { Product } from '../../core/models/product.model';
+import { priceForWeight, Product } from '../../core/models/product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -16,22 +16,31 @@ export class ProductCardComponent {
   
   @Input({ required: true }) product!: Product;
   
-  selectedWeight = '';
+  readonly selectedWeight = signal('');
   
   private readonly snackBar = inject(MatSnackBar);
   private readonly cart = inject(CartService);
+  readonly cartItem = computed(() => this.cart.items().find(item => item.productId === this.product.id && item.selectedWeight === (this.selectedWeight() || this.product.weightOptions[0])));
+  readonly selectedPrice = computed(() => priceForWeight(this.product.price, this.selectedWeight() || this.product.weightOptions[0] || '1kg'));
 
   selectWeight(event: Event): void {
-    this.selectedWeight = (event.target as HTMLSelectElement).value;
+    this.selectedWeight.set((event.target as HTMLSelectElement).value);
   }
 
   addToCart(): void {
     this.cart.add(
       this.product,
-      this.selectedWeight || this.product.weightOptions[0],
+      this.selectedWeight() || this.product.weightOptions[0],
     );
     this.snackBar.open('Ürün sepete eklendi', 'Kapat', {
       duration: 3000,
     });
+  }
+
+  increase(): void { this.cart.add(this.product, this.selectedWeight() || this.product.weightOptions[0]); }
+
+  decrease(): void {
+    const item = this.cartItem();
+    if (item) this.cart.setQuantity(item.productId, item.selectedWeight, item.quantity - 1);
   }
 }
