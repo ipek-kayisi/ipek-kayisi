@@ -6,4 +6,6 @@ export interface Contacts {
   facebook: string;
   mapUrl: string;
   mail: string;
+  iban: string;
+  bankAccountName: string;
 }

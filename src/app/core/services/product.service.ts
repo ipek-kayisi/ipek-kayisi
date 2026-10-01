@@ -1,13 +1,14 @@
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, firebaseConfigured, storage } from '../firebase';
+import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
+import { db, firebaseConfigured } from '../firebase';
 import { Product } from '../models/product.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly storage = inject(Storage);
   readonly products = signal<Product[]>([]);
 
   async load(): Promise<void> {
@@ -32,8 +33,9 @@ export class ProductService {
 
   async uploadImage(file: File): Promise<string> {
     if (!firebaseConfigured) throw new Error('Firebase yapılandırması gerekli.');
-    const imageRef = ref(storage, `products/${Date.now()}-${file.name}`);
-    await uploadBytes(imageRef, file);
+    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const imageRef = ref(this.storage, `products/${crypto.randomUUID()}.${extension}`);
+    await uploadBytes(imageRef, file, { contentType: file.type });
     return getDownloadURL(imageRef);
   }
 }

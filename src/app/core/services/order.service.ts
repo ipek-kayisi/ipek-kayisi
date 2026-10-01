@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, orderBy, query, Timestamp, updateDoc } from 'firebase/firestore';
 import { db, firebaseConfigured } from '../firebase';
 import { Order, OrderStatus } from '../models/order.model';
 
@@ -14,7 +14,15 @@ export class OrderService {
   async list(): Promise<Order[]> {
     if (!firebaseConfigured) return [];
     const snapshot = await getDocs(query(collection(db, 'orders'), orderBy('createdAt', 'desc')));
-    return snapshot.docs.map(item => ({ id: item.id, ...item.data() } as Order));
+    return snapshot.docs.map((item) => {
+      const data = item.data();
+      const createdAt = data['createdAt'];
+      return {
+        id: item.id,
+        ...data,
+        createdAt: createdAt instanceof Timestamp ? createdAt.toDate() : createdAt,
+      } as Order;
+    });
   }
 
   async setStatus(id: string, status: OrderStatus): Promise<void> {
