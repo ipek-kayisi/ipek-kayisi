@@ -169,8 +169,8 @@ export class CartComponent {
         ` *Adres:* ${address}`,
         ` *Teslimat:* ${this.delivery() === 'pickup' ? 'Mağazadan Teslim Alma' : 'Ücretli Kurye'}`,
         this.selectedPaymentMethod() === 'cash'
-          ? '💳 *Ödeme:* Kapıda Nakit'
-          : '💳 *Ödeme:* Havale / EFT (Banka Transferi)',
+          ? ' *Ödeme:* Kapıda Nakit'
+          : ' *Ödeme:* Havale / EFT (Banka Transferi)',
         '',
         ' *Sipariş Detayı:*',
         orderLines,

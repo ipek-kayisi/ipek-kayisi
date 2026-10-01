@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeTr from '@angular/common/locales/tr';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import {
@@ -23,12 +23,16 @@ registerLocaleData(localeTr);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      }),
+    ),
     provideClientHydration(withEventReplay()),
     { provide: LOCALE_ID, useValue: 'tr-TR' },
-    provideFirebaseApp(() =>
-      initializeApp(firebaseConfig.firebase),
-    ),
+    provideFirebaseApp(() => initializeApp(firebaseConfig.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),

@@ -8,7 +8,7 @@
         seçildi, şimdi kapınızda.
       </p>
       <div class="hero-actions">
-        <a routerLink="/catalog" class="primary-btn"
+        <a href="#products" class="primary-btn"
           >Ürünleri Keşfet <img src="/arrow-up-right.svg" alt=""
         /></a>
         <a class="text-link" [href]="'tel:' + contacts.contacts().phone"
@@ -101,7 +101,7 @@
     }
   </div>
 </section>
-<section class="featured">
+<section class="featured" id="products">
   <div class="section-wrap">
     <div class="section-heading">
       <div>
@@ -116,6 +116,36 @@
       @for (product of products.products().slice(0, 4); track product.id) {
         <app-product-card [product]="product" />
       }
+    </div>
+  </div>
+</section>
+<section class="about-company" aria-labelledby="about-company-title">
+  <div class="about-company-inner">
+    <div class="about-company-copy">
+      <span class="eyebrow">HAKKIMIZDA</span>
+      <h2 id="about-company-title">İpek Toptan Kuru Gıda <em>hakkında</em></h2>
+      <p>
+        Doğal kuruyemişleri, kuru meyveleri ve yöresel lezzetleri özenle seçip
+        sofralarınıza ulaştırıyoruz. Toptan ve perakende satış seçeneklerimizle
+        tazeliği, kaliteyi ve güvenilir hizmeti bir araya getiriyoruz.
+      </p>
+      <a routerLink="/contacts" class="about-contact"
+        >Bizimle iletişime geçin <img src="/arrow-up-right.svg" alt=""
+      /></a>
+    </div>
+    <div class="about-highlights">
+      <article>
+        <img src="/sparkles.svg" alt="" />
+        <div><b>Özenle seçilmiş</b><span>Her üründe kaliteye dikkat</span></div>
+      </article>
+      <article>
+        <img src="/store.svg" alt="" />
+        <div><b>Toptan ve perakende</b><span>Farklı ihtiyaçlara uygun alışveriş</span></div>
+      </article>
+      <article>
+        <img src="/package-check.svg" alt="" />
+        <div><b>Güvenilir hizmet</b><span>Siparişten teslimata özen</span></div>
+      </article>
     </div>
   </div>
 </section>

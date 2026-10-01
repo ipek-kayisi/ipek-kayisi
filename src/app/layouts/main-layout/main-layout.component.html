@@ -18,6 +18,40 @@
     <a routerLink="/contacts" routerLinkActive="active">İletişim</a>
   </nav>
   <div class="header-actions">
+    <div class="social-links" aria-label="Sosyal medya ve WhatsApp">
+      @if (contacts.contacts().phoneWp) {
+        <a
+          [href]="whatsappUrl(contacts.contacts().phoneWp)"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp ile iletişim"
+          ><img src="/whatsapp.svg" alt=""
+        /></a>
+      }
+      @if (contacts.contacts().intagram) {
+        <a
+          [href]="instagramUrl(contacts.contacts().intagram)"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          ><img src="/instagram.svg" alt=""
+        /></a>
+      }
+      @if (contacts.contacts().facebook) {
+        <a
+          [href]="contacts.contacts().facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+          ><img src="/facebook.svg" alt=""
+        /></a>
+      }
+    </div>
+    @if (isAdmin()) {
+      <a class="admin-link" routerLink="/admin" aria-label="Yönetim paneli">
+        <img src="/layout-dashboard.svg" alt="" /><span>Yönetim</span>
+      </a>
+    }
     <a class="wholesale" [href]="'tel:' + contacts.contacts().phone"
       >Toptan destek <strong>{{ contacts.contacts().phone }}</strong></a
     ><a class="cart-link" routerLink="/cart" aria-label="Sepet"

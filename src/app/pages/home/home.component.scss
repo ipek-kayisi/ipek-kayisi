@@ -400,11 +400,81 @@ h2 em {
 }
 .featured {
   background: #f8f7f2;
+  scroll-margin-top: 24px;
 }
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 17px;
+}
+.about-company {
+  background: #fff;
+  padding: 68px 20px;
+}
+.about-company-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  align-items: center;
+  gap: 60px;
+}
+.about-company-copy h2 {
+  max-width: 600px;
+  margin: 12px 0;
+  color: #164b40;
+  font: 500 34px/1.2 Georgia, serif;
+}
+.about-company-copy > p {
+  max-width: 610px;
+  color: #777e76;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.about-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: #24574a;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+.about-contact img {
+  width: 15px;
+  height: 15px;
+}
+.about-highlights {
+  display: grid;
+  gap: 12px;
+}
+.about-highlights article {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #f8f7f2;
+  border: 1px solid #eeece5;
+  border-radius: 8px;
+}
+.about-highlights article > img {
+  width: 23px;
+  height: 23px;
+  flex: none;
+}
+.about-highlights b,
+.about-highlights span {
+  display: block;
+}
+.about-highlights b {
+  color: #245348;
+  font-size: 12px;
+}
+.about-highlights span {
+  margin-top: 4px;
+  color: #899087;
+  font-size: 10px;
 }
 .promise {
   background: #eef2e8;
@@ -454,6 +524,10 @@ h2 em {
   }
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .about-company-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
   .hero-image {
     height: 340px;
@@ -523,6 +597,12 @@ h2 em {
   }
   .section-wrap {
     padding: 47px 18px;
+  }
+  .about-company {
+    padding: 48px 18px;
+  }
+  .about-company-copy h2 {
+    font-size: 27px;
   }
   .section-heading h2 {
     font-size: 26px;
