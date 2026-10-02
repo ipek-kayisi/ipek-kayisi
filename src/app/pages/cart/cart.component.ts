@@ -25,7 +25,7 @@ export class CartComponent {
   readonly message = signal('');
   readonly whatsappFallbackUrl = signal('');
   readonly ibanCopied = signal(false);
-  private readonly contactsLoaded: Promise<void>;
+  private readonly contactsLoaded: Promise<boolean>;
   readonly form = this.fb.nonNullable.group({
     customerName: ['', [Validators.required, Validators.minLength(2)]],
     phone: ['', [Validators.required, Validators.minLength(10)]],

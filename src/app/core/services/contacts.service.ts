@@ -13,12 +13,14 @@ export class ContactsService {
   private readonly state = inject(ContactsStateService);
   readonly contacts = this.state.contacts;
 
-  async load(): Promise<void> {
-    if (!this.browser || !firebaseConfigured) return;
+  async load(): Promise<boolean> {
+    if (!this.browser || !firebaseConfigured) return false;
     try {
       const snapshot = await getDoc(contactsDocument);
       this.contacts.set(snapshot.exists() ? { ...this.contacts(), ...snapshot.data() } as Contacts : this.contacts());
+      return true;
     } catch (error) { console.error('İletişim bilgileri yüklenemedi', error); }
+    return false;
   }
 
   async save(value: Contacts): Promise<void> {

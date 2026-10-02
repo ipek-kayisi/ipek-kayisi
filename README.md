@@ -15,7 +15,10 @@ npm start
 2. Enable Firestore, Cloud Storage and Email/Password Authentication.
 3. Replace the `YOUR_*` values in `src/app/core/firebase.ts` with the Web app configuration.
 4. Create the initial categories and products in the `categories` and `products` collections, or use the built-in sample data until Firestore has records.
-5. Create admin accounts in Firebase Authentication. The client-side guard is navigation UX only: configure Firestore and Storage Security Rules to restrict all admin writes and order reads to authorized staff. Never rely on the route guard as a security boundary.
+5. Create admin accounts in Firebase Authentication. The client-side guard is navigation UX only; never rely on it as a security boundary.
+6. Select the Firebase project in the Firebase CLI and deploy the rules in `firestore.rules` and `storage.rules` with `firebase deploy --only firestore:rules,storage`.
+
+The Firestore rules allow public reads of `contacts`, which includes the IBAN and account holder saved at `contacts/main`. They also treat any signed-in Firebase user as an admin for writes and order reads; only create accounts for trusted administrators, or replace this check with a server-managed admin role before enabling other user accounts.
 
 Firebase configuration values are public client identifiers, not admin credentials. Do not put service-account keys or Telegram bot tokens in this app.
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FirebaseError } from 'firebase/app';
 import { ContactsService } from '../../core/services/contacts.service';
 import { firebaseConfigured } from '../../core/firebase';
 
@@ -10,7 +11,9 @@ import { firebaseConfigured } from '../../core/firebase';
   template: `<div class="page-heading">
       <div>
         <h1>İletişim bilgileri</h1>
-        <p>{{ message() }}</p>
+        <p>
+          {{ message() || (form.controls.mail.hasError('email') ? 'Geçerli bir e-posta adresi girin (ör. name@example.com).' : '') }}
+        </p>
       </div>
     </div>
     <form class="contacts-form" [formGroup]="form" (ngSubmit)="save()">
@@ -176,7 +179,15 @@ export class AdminContactsComponent implements OnInit {
   ngOnInit(): void {
     void this.contacts
       .load()
-      .then(() => this.form.patchValue(this.contacts.contacts()));
+      .then((loaded) => {
+        if (loaded) {
+          this.form.patchValue(this.contacts.contacts());
+        } else if (firebaseConfigured) {
+          this.message.set(
+            'İletişim bilgileri yüklenemedi. ipek-malatya projesinde Firestore kurallarını yayımlayın.',
+          );
+        }
+      });
   }
 
   async save(): Promise<void> {
@@ -186,14 +197,30 @@ export class AdminContactsComponent implements OnInit {
       );
       return;
     }
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.message.set(
+        this.form.controls.mail.hasError('email')
+          ? 'Geçerli bir e-posta adresi girin (ör. name@example.com).'
+          : 'Zorunlu alanları doldurun: telefon, harita bağlantısı ve e-posta.',
+      );
+      return;
+    }
     this.saving.set(true);
     this.message.set('');
     try {
       await this.contacts.save(this.form.getRawValue());
       this.message.set('İletişim bilgileri kaydedildi.');
-    } catch {
-      this.message.set('İletişim bilgileri kaydedilemedi.');
+    } catch (error) {
+      if (error instanceof FirebaseError && error.code === 'permission-denied') {
+        this.message.set(
+          'Firestore yazma iznini reddetti. ipek-malatya projesinde Firestore kurallarını yayımlayın ve yönetici hesabıyla giriş yapın.',
+        );
+      } else if (error instanceof FirebaseError && error.code === 'unauthenticated') {
+        this.message.set('Yönetici oturumunuz sona erdi. Tekrar giriş yapıp yeniden deneyin.');
+      } else {
+        console.error('İletişim bilgileri kaydedilemedi', error);
+        this.message.set('İletişim bilgileri kaydedilemedi. Ayrıntılar için tarayıcı konsolunu kontrol edin.');
+      }
     } finally {
       this.saving.set(false);
     }
