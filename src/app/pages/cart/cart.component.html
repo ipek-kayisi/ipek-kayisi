@@ -210,8 +210,11 @@
               : "Ücretsiz"
           }}</b>
         </div>
-        @if (delivery() === "courier" && cart.total() < 1500) {
-          <p>1.500 TL üzeri siparişlerde kurye ücretsiz.</p>
+        @if (delivery() === "courier" && cart.total() < freeDeliveryThreshold) {
+          <p>
+            {{ freeDeliveryThreshold | currency: "TRY" : "₺" : "1.0-0" : "tr-TR" }} ve üzeri
+            siparişlerde kurye ücretsiz.
+          </p>
         }
         <hr />
         <div class="total">

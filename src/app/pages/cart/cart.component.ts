@@ -20,6 +20,7 @@ export class CartComponent {
   private readonly orders = inject(OrderService);
   readonly contacts = inject(ContactsService);
   readonly delivery = signal<'pickup' | 'courier'>('courier');
+  readonly freeDeliveryThreshold = 5000;
   readonly selectedPaymentMethod = signal<PaymentMethod>('cash');
   readonly submitting = signal(false);
   readonly message = signal('');
@@ -32,7 +33,7 @@ export class CartComponent {
     address: ['', [Validators.minLength(8)]],
   });
   readonly courierFee = computed(() =>
-    this.delivery() === 'courier' && this.cart.total() < 1500 ? 99 : 0,
+    this.delivery() === 'courier' && this.cart.total() < this.freeDeliveryThreshold ? 99 : 0,
   );
   readonly grandTotal = computed(() => this.cart.total() + this.courierFee());
 
