@@ -17,7 +17,21 @@ export class ContactsService {
     if (!this.browser || !firebaseConfigured) return false;
     try {
       const snapshot = await getDoc(contactsDocument);
-      this.contacts.set(snapshot.exists() ? { ...this.contacts(), ...snapshot.data() } as Contacts : this.contacts());
+      if (snapshot.exists()) {
+        const current = this.contacts();
+        const data = snapshot.data();
+        const deliveryFee = data['deliveryFee'];
+        this.contacts.set({
+          ...current,
+          ...data,
+          deliveryFee:
+            typeof deliveryFee === 'number' &&
+            Number.isFinite(deliveryFee) &&
+            deliveryFee >= 0
+              ? deliveryFee
+              : current.deliveryFee,
+        } as Contacts);
+      }
       return true;
     } catch (error) { console.error('İletişim bilgileri yüklenemedi', error); }
     return false;

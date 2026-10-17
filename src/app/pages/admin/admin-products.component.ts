@@ -76,7 +76,7 @@ import { CategoryService } from '../../core/services/category.service';
             <label
               >Paket seçenekleri<input
                 formControlName="weightOptions"
-                placeholder="250g, 500g, 1kg"
+                placeholder="1kg, 500g, 250g"
             /></label>
             <div class="form-group full-width">
               <label class="form-label">Fotoğraf</label>
@@ -426,7 +426,7 @@ export class AdminProductsComponent {
     stockCount: [0, [Validators.required, Validators.min(0)]],
     imageUrl: ['', [Validators.required]],
     categorySlug: ['kuruyemis', [Validators.required]],
-    weightOptions: ['250g, 500g, 1kg', [Validators.required]],
+    weightOptions: ['1kg', [Validators.required]],
   });
   constructor() {
     void this.products.load();

@@ -17,7 +17,7 @@
               [value]="selectedWeight()"
               (change)="weight.set($any($event.target).value)"
             >
-              @for (option of item.weightOptions; track option) {
+              @for (option of weightOptionsForProduct(item); track option) {
                 <option [value]="option">{{ option }}</option>
               }
             </select></label

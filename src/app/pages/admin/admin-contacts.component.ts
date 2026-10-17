@@ -72,9 +72,20 @@ import { firebaseConfigured } from '../../core/firebase';
           /></label>
         </div>
       </section>
+      <section>
+        <h2>Teslimat</h2>
+        <label
+          >Kurye ücreti (₺)<input
+            type="number"
+            formControlName="deliveryFee"
+            min="0"
+            step="0.01"
+        /></label>
+        <p class="help-text">Bu ücret, ₺5.000 altındaki kurye siparişlerine uygulanır. ₺5.000 ve üzeri siparişlerde kurye ücretsizdir.</p>
+      </section>
       <div class="form-actions">
         <button class="primary" [disabled]="form.invalid || saving()">
-          {{ saving() ? 'Kaydediliyor...' : 'İletişim bilgilerini kaydet' }}
+          {{ saving() ? 'Kaydediliyor...' : 'Ayarları kaydet' }}
         </button>
       </div>
     </form>`,
@@ -107,6 +118,11 @@ import { firebaseConfigured } from '../../core/firebase';
         font: 20px Georgia;
         color: #245447;
         margin: 0 0 18px;
+      }
+      .help-text {
+        margin: -4px 0 0;
+        color: #718078;
+        font-size: 12px;
       }
       .field-grid {
         display: grid;
@@ -174,6 +190,7 @@ export class AdminContactsComponent implements OnInit {
     mail: ['', [Validators.required, Validators.email]],
     iban: [''],
     bankAccountName: [''],
+    deliveryFee: [99, [Validators.required, Validators.min(0)]],
   });
 
   ngOnInit(): void {

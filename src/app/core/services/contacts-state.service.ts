@@ -11,6 +11,7 @@ const emptyContacts: Contacts = {
   mail: '',
   iban: '',
   bankAccountName: '',
+  deliveryFee: 99,
 };
 
 @Injectable({ providedIn: 'root' })

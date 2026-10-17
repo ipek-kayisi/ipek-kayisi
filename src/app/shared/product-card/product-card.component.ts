@@ -2,7 +2,12 @@ import { Component, Input, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
-import { priceForWeight, Product } from '../../core/models/product.model';
+import {
+  defaultWeightForProduct,
+  priceForWeight,
+  Product,
+  weightOptionsForProduct,
+} from '../../core/models/product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -17,11 +22,13 @@ export class ProductCardComponent {
   @Input({ required: true }) product!: Product;
   
   readonly selectedWeight = signal('');
+  readonly defaultWeightForProduct = defaultWeightForProduct;
+  readonly weightOptionsForProduct = weightOptionsForProduct;
   
   private readonly snackBar = inject(MatSnackBar);
   private readonly cart = inject(CartService);
-  readonly cartItem = computed(() => this.cart.items().find(item => item.productId === this.product.id && item.selectedWeight === (this.selectedWeight() || this.product.weightOptions[0])));
-  readonly selectedPrice = computed(() => priceForWeight(this.product.price, this.selectedWeight() || this.product.weightOptions[0] || '1kg'));
+  readonly cartItem = computed(() => this.cart.items().find(item => item.productId === this.product.id && item.selectedWeight === (this.selectedWeight() || defaultWeightForProduct(this.product))));
+  readonly selectedPrice = computed(() => priceForWeight(this.product.price, this.selectedWeight() || defaultWeightForProduct(this.product)));
 
   selectWeight(event: Event): void {
     this.selectedWeight.set((event.target as HTMLSelectElement).value);
@@ -30,14 +37,14 @@ export class ProductCardComponent {
   addToCart(): void {
     this.cart.add(
       this.product,
-      this.selectedWeight() || this.product.weightOptions[0],
+      this.selectedWeight() || defaultWeightForProduct(this.product),
     );
     this.snackBar.open('Ürün sepete eklendi', 'Kapat', {
       duration: 3000,
     });
   }
 
-  increase(): void { this.cart.add(this.product, this.selectedWeight() || this.product.weightOptions[0]); }
+  increase(): void { this.cart.add(this.product, this.selectedWeight() || defaultWeightForProduct(this.product)); }
 
   decrease(): void {
     const item = this.cartItem();

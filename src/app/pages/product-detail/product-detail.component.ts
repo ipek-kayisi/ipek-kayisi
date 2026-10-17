@@ -4,7 +4,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { ProductService } from '../../core/services/product.service';
 import { ProductCardComponent } from '../../shared/product-card/product-card.component';
-import { priceForWeight } from '../../core/models/product.model';
+import {
+  defaultWeightForProduct,
+  priceForWeight,
+  weightOptionsForProduct,
+} from '../../core/models/product.model';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,6 +22,7 @@ export class ProductDetailComponent implements OnInit {
   readonly service = inject(ProductService);
   readonly cart = inject(CartService);
   readonly weight = signal('');
+  readonly weightOptionsForProduct = weightOptionsForProduct;
   readonly product = computed(() =>
     this.service
       .products()
@@ -29,7 +34,10 @@ export class ProductDetailComponent implements OnInit {
       .filter((item) => item.id !== this.product()?.id && item.isAvailable)
       .slice(0, 4),
   );
-  readonly selectedWeight = computed(() => this.weight() || this.product()?.weightOptions[0] || '1kg');
+  readonly selectedWeight = computed(() => {
+    const product = this.product();
+    return this.weight() || (product ? defaultWeightForProduct(product) : '1kg');
+  });
   readonly selectedPrice = computed(() => {
     const item = this.product();
     return item ? priceForWeight(item.price, this.selectedWeight()) : 0;

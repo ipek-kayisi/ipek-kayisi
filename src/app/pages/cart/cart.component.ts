@@ -33,7 +33,9 @@ export class CartComponent {
     address: ['', [Validators.minLength(8)]],
   });
   readonly courierFee = computed(() =>
-    this.delivery() === 'courier' && this.cart.total() < this.freeDeliveryThreshold ? 99 : 0,
+    this.delivery() === 'courier' && this.cart.total() < this.freeDeliveryThreshold
+      ? this.contacts.contacts().deliveryFee
+      : 0,
   );
   readonly grandTotal = computed(() => this.cart.total() + this.courierFee());
 

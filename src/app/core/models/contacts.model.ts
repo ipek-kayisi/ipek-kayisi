@@ -8,4 +8,5 @@ export interface Contacts {
   mail: string;
   iban: string;
   bankAccountName: string;
+  deliveryFee: number;
 }

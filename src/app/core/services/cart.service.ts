@@ -2,7 +2,11 @@ import { computed, Injectable, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CartItem } from '../models/cart.model';
-import { priceForWeight, Product } from '../models/product.model';
+import {
+  defaultWeightForProduct,
+  priceForWeight,
+  Product,
+} from '../models/product.model';
 
 const STORAGE_KEY = 'ipek-cart-v2';
 
@@ -14,7 +18,7 @@ export class CartService {
   readonly total = computed(() => this.items().reduce((sum, item) => sum + item.price * item.quantity, 0));
   readonly count = computed(() => this.items().reduce((sum, item) => sum + item.quantity, 0));
 
-  add(product: Product, selectedWeight = product.weightOptions[0] ?? '1kg'): void {
+  add(product: Product, selectedWeight = defaultWeightForProduct(product)): void {
     this.items.update(items => {
       const match = items.find(item => item.productId === product.id && item.selectedWeight === selectedWeight);
       return match

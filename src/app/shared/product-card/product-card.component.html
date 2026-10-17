@@ -14,10 +14,10 @@
         <label class="weight"
           ><span class="sr-only">Paket ağırlığı</span
           ><select
-            [value]="selectedWeight() || product.weightOptions[0]"
+            [value]="selectedWeight() || defaultWeightForProduct(product)"
             (change)="selectWeight($event)"
           >
-            @for (weight of product.weightOptions; track weight) {
+            @for (weight of weightOptionsForProduct(product); track weight) {
               <option [value]="weight">{{ weight }}</option>
             }
           </select></label
